@@ -126,8 +126,9 @@ void Screen::graph_making(int &x, int &y, bool ds1)
     std::vector<std::pair<float, float>> v = read_file(ds1);
     std::vector<float> arrival;
     std::vector<float> departure;
-    bool M_idle = false;
-    long dep = v[0].first;
+    bool M_idle = true;
+    bool L_idle = true;
+    float dep = v[0].first;
     for (auto it = v.begin(); it != v.end(); it++)
     {
         arrival.push_back(it->first);
@@ -142,44 +143,74 @@ void Screen::graph_making(int &x, int &y, bool ds1)
             departure.push_back(dep);
         }
     }
-    int in_queue = 0, j = 0;
-    for (size_t i = 0; i < arrival.size(); i++)
+    int n = arrival.size();
+    int in_queue = 0, j = 0, i = 1;
+    inQueue[arrival[0]] = in_queue;
+
+    std::cout << "Arrival : ";
+    for (auto &x : arrival)
+        std::cout << x << ", ";
+    std::cout << std::endl;
+
+    std::cout << "Departure : ";
+    for (auto &x : departure)
+        std::cout << x << ", ";
+    std::cout << std::endl;
+    while (i < n && j < n)
     {
-        if (arrival[i + 1] < departure[j])
+        if (j >= i)
+        {
+            inQueue[arrival[i]] = in_queue;
+            i = j + 1;
+        }
+        if (departure[j] > arrival[i])
         {
             in_queue++;
-            inQueue[arrival[i + 1]] = in_queue;
-            inQueue[departure[j]] = in_queue;
-            j++;
+            i++;
+            inQueue[arrival[i - 1]] = in_queue;
         }
         else
         {
             j++;
-            // i = i - 1;
-            if (in_queue > 0)
+            if (in_queue > 0 && j <= i)
                 in_queue--;
             inQueue[departure[j - 1]] = in_queue;
-            inQueue[arrival[i]] = in_queue;
-            inQueue[arrival[i + 1]] = in_queue;
         }
+        // std::cout << "in_queue : " << in_queue << std::endl;
     }
 
+    while (j < n)
+    {
+        if (in_queue > 0)
+            in_queue--;
+        inQueue[departure[j]] = in_queue;
+        j++;
+    }
+    // for (auto &x : inQueue)
+    // {
+    //     std::cout << x.first << "," << x.second << std::endl;
+    // }
     if (x <= 1005 && x >= 855)
     {
         if (y <= 278 && y >= 252)
         {
             std::cout << "GRAPH 1" << std::endl;
             gp << "set style fill transparent solid 0.7\n";
-            gp << "set xrange [0:9]\nset yrange [0:9]\n";
-            gp << "plot '-' with boxes title 'v'\n";
+            gp << "set xrange [0.4:9]\nset yrange [0:9]\n";
+            gp << "set xlabel 'Arrivals and Departures'\n";
+            gp << "set ylabel 'Q(t)'\n";
+            gp << "plot '-' with boxes title 'Q(t) denote the number of customers in queue at time t,'\n";
             gp.send(inQueue);
         }
         else if (y <= 344 && y >= 318)
         {
             std::cout << "GRAPH 2" << std::endl;
+            std::cout << "B(t) = { 1 if the server is busy at time t\n         0 if the server is idle at time t }" << std::endl;
             gp << "set style fill transparent solid 0.7\n";
-            gp << "set xrange [0:9]\nset yrange [0:9]\n";
-            gp << "plot '-' with boxes title 'v'\n";
+            gp << "set xrange [0.4:9]\nset yrange [0:9]\n";
+            gp << "set xlabel 'Arrivals and Departures'\n";
+            gp << "set ylabel 'B(t)'\n";
+            gp << "plot '-' with boxes title 'B(t) busy function'\n";
             for (auto &x : inQueue)
             {
                 if (x.second > 0)
