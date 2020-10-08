@@ -46,8 +46,6 @@ int main()
     screen.close();
 
 #ifdef _WIN32
-    // For Windows, prompt for a keystroke before the Gnuplot object goes out of scope so that
-    // the gnuplot window doesn't get closed.
     std::cout << "Press enter to exit." << std::endl;
     std::cin.get();
 #endif
