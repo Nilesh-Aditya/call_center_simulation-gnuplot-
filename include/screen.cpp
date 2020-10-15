@@ -122,7 +122,7 @@ void Screen::graph_making(int &x, int &y, bool ds1)
     srand(time(NULL));
     int RANDOM = cos(rand()) + 1;
     Gnuplot gp;
-    std::map<float, float> inQueue;
+    std::map<float, float> inQueue; /*people waiting in queues in their respective timing*/
     std::vector<std::pair<float, float>> v = read_file(ds1);
     std::vector<float> arrival;
     std::vector<float> departure;
@@ -144,7 +144,7 @@ void Screen::graph_making(int &x, int &y, bool ds1)
         }
     }
     int n = arrival.size();
-    int in_queue = 0, j = 0, i = 1;
+    int in_queue = 0 /*waiting peoples*/, j = 0, i = 1;
     inQueue[arrival[0]] = in_queue;
 
     std::cout << "Arrival : ";
@@ -196,7 +196,7 @@ void Screen::graph_making(int &x, int &y, bool ds1)
         {
             std::cout << "GRAPH 1" << std::endl;
             gp << "set style fill transparent solid 0.7\n";
-            gp << "set xrange [0.4:9]\nset yrange [0:9]\n";
+            gp << "set xrange [0.4:200]\nset yrange [0:9]\n";
             gp << "set xlabel 'Arrivals and Departures'\n";
             gp << "set ylabel 'Q(t)'\n";
             gp << "plot '-' with boxes title 'Q(t) denote the number of customers in queue at time t,'\n";
@@ -207,7 +207,7 @@ void Screen::graph_making(int &x, int &y, bool ds1)
             std::cout << "GRAPH 2" << std::endl;
             std::cout << "B(t) = { 1 if the server is busy at time t\n         0 if the server is idle at time t }" << std::endl;
             gp << "set style fill transparent solid 0.7\n";
-            gp << "set xrange [0.4:9]\nset yrange [0:9]\n";
+            gp << "set xrange [0.4:200]\nset yrange [0:9]\n";
             gp << "set xlabel 'Arrivals and Departures'\n";
             gp << "set ylabel 'B(t)'\n";
             gp << "plot '-' with boxes title 'B(t) busy function'\n";
