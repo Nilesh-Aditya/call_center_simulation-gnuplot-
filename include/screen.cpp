@@ -38,7 +38,7 @@ bool Screen::init()
 bool Screen::loadmedia()
 {
     bool success = true;
-    gCurrentSurface = SDL_LoadBMP("src/mns1.bmp");
+    gCurrentSurface = SDL_LoadBMP("bmp_files/mns1.bmp");
     if (gCurrentSurface == NULL)
     {
         std::cout << "Unable to load image SDL_IMAGE :" << SDL_GetError() << std::endl;
