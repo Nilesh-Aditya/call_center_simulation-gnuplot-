@@ -150,7 +150,8 @@ void Screen::graph_making(int &x, int &y, bool ds1)
     std::cout << "Arrival : ";
     for (auto &x : arrival)
         std::cout << x << ", ";
-    std::cout << std::endl;
+    std::cout << std::endl
+              << std::endl;
 
     std::cout << "Departure : ";
     for (auto &x : departure)
@@ -211,10 +212,17 @@ void Screen::graph_making(int &x, int &y, bool ds1)
             gp << "set xlabel 'Arrivals and Departures'\n";
             gp << "set ylabel 'B(t)'\n";
             gp << "plot '-' with boxes title 'B(t) busy function'\n";
+            int arr = 0, dep = 0;
             for (auto &x : inQueue)
             {
-                if (x.second > 0)
+                if (x.first == arrival[arr])
+                    arr += 1;
+                if (x.first == departure[dep])
+                    dep += 1;
+                if (arr - dep > 0)
                     x.second = 1;
+                else
+                    x.second = 0;
             }
             gp.send(inQueue);
         }
