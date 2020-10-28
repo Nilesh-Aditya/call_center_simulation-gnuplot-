@@ -1,8 +1,8 @@
 #include "screen.hpp"
 #include <fstream>
 #include "gnuplot-iostream.h"
-#include <time.h>
 #include <cmath>
+#include "table.hpp"
 
 // #include <array>
 
@@ -191,13 +191,14 @@ void Screen::graph_making(int &x, int &y, bool ds1)
     // {
     //     std::cout << x.first << "," << x.second << std::endl;
     // }
+    make_table(arrival, departure);
     if (x <= 1005 && x >= 855)
     {
         if (y <= 278 && y >= 252)
         {
             std::cout << "GRAPH 1" << std::endl;
             gp << "set style fill transparent solid 0.7\n";
-            gp << "set xrange [0.4:200]\nset yrange [0:9]\n";
+            gp << "set xrange [0:200]\nset yrange [0:9]\n";
             gp << "set xlabel 'Arrivals and Departures'\n";
             gp << "set ylabel 'Q(t)'\n";
             gp << "plot '-' with boxes title 'Q(t) denote the number of customers in queue at time t,'\n";
@@ -208,7 +209,7 @@ void Screen::graph_making(int &x, int &y, bool ds1)
             std::cout << "GRAPH 2" << std::endl;
             std::cout << "B(t) = { 1 if the server is busy at time t\n         0 if the server is idle at time t }" << std::endl;
             gp << "set style fill transparent solid 0.7\n";
-            gp << "set xrange [0.4:200]\nset yrange [0:9]\n";
+            gp << "set xrange [0:200]\nset yrange [0:9]\n";
             gp << "set xlabel 'Arrivals and Departures'\n";
             gp << "set ylabel 'B(t)'\n";
             gp << "plot '-' with boxes title 'B(t) busy function'\n";
@@ -269,4 +270,13 @@ std::vector<std::pair<float, float>> Screen::read_file(bool data_set1 /*= true*/
     }
 
     return v;
+}
+
+void Screen::make_table(std::vector<float> arrival, std::vector<float> departure)
+{
+    std::cout << "\n\n"
+              << std::endl;
+
+    arrival_service_end(arrival, departure);
+    table();
 }

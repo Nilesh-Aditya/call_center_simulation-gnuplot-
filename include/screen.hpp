@@ -27,6 +27,7 @@ public:
     std::array<int, 2> mousePress(SDL_MouseButtonEvent &);
     std::vector<std::pair<float, float>> read_file(bool data_set1 = true);
     void graph_making(int &, int &, bool);
+    void make_table(std::vector<float> arrival, std::vector<float> departure);
     // void graph_select(int &, int &, bool);
 
 private:
