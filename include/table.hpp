@@ -7,10 +7,8 @@ static float total_waiting_time = 0, total_idle_time = 0, wait_count = 0;
 struct Simulation
 {
     int customer_no;
-    // int rd_ar;
     float intr_arr_time;
     float arrival;
-    // float rd_se;
     float service_begin;
     float service_time;
     float time_ser_end;
