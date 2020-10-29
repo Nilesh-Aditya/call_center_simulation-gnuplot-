@@ -4,8 +4,6 @@
 #include <cmath>
 #include "table.hpp"
 
-// #include <array>
-
 Screen::Screen() : gScreenSurface(NULL), gCurrentSurface(NULL), m_window(NULL) {}
 
 bool Screen::init()
@@ -27,7 +25,6 @@ bool Screen::init()
         }
         else
         {
-            //Initialize PNG loading
             gScreenSurface = SDL_GetWindowSurface(m_window);
         }
     }
@@ -102,7 +99,6 @@ void Screen::eventManager()
             {
                 graph_making(x, y, ds1);
             }
-            // auto [x, y] = mousePress(e.button);
         }
     }
 }
@@ -177,7 +173,6 @@ void Screen::graph_making(int &x, int &y, bool ds1)
                 in_queue--;
             inQueue[departure[j - 1]] = in_queue;
         }
-        // std::cout << "in_queue : " << in_queue << std::endl;
     }
 
     while (j < n)
@@ -187,10 +182,6 @@ void Screen::graph_making(int &x, int &y, bool ds1)
         inQueue[departure[j]] = in_queue;
         j++;
     }
-    // for (auto &x : inQueue)
-    // {
-    //     std::cout << x.first << "," << x.second << std::endl;
-    // }
     make_table(arrival, departure);
     if (x <= 1005 && x >= 855)
     {
@@ -238,8 +229,6 @@ std::vector<std::pair<float, float>> Screen::read_file(bool data_set1 /*= true*/
         std::ifstream ds("dataSets/ds1.csv");
         std::string line;
         getline(ds, line);
-        // stringstream ss;
-        // std::cout << line << std::endl;
 
         float col1, col2;
         char c;
@@ -248,7 +237,6 @@ std::vector<std::pair<float, float>> Screen::read_file(bool data_set1 /*= true*/
             ds >> c;
             ds >> col2;
             v.push_back(std::make_pair(col1, col2));
-            // std::cout << col1 << "," << col2 << std::endl;
         }
     }
     else
@@ -256,8 +244,6 @@ std::vector<std::pair<float, float>> Screen::read_file(bool data_set1 /*= true*/
         std::ifstream ds("dataSets/ds2.csv");
         std::string line;
         getline(ds, line);
-        // stringstream ss;
-        // std::cout << line << std::endl;
         float col1, col2;
         char c;
         while (ds >> col1)
@@ -265,7 +251,6 @@ std::vector<std::pair<float, float>> Screen::read_file(bool data_set1 /*= true*/
             ds >> c;
             ds >> col2;
             v.push_back(std::make_pair(col1, col2));
-            // std::cout << col1 << "," << col2 << std::endl;
         }
     }
 

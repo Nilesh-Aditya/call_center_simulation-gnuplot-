@@ -28,11 +28,9 @@ public:
     std::vector<std::pair<float, float>> read_file(bool data_set1 = true);
     void graph_making(int &, int &, bool);
     void make_table(std::vector<float> arrival, std::vector<float> departure);
-    // void graph_select(int &, int &, bool);
 
 private:
     SDL_Surface *gScreenSurface;
     SDL_Surface *gCurrentSurface;
     SDL_Window *m_window;
-    // SDL_Event e;
 };
